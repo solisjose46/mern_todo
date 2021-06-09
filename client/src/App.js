@@ -1,30 +1,46 @@
-import React from "react";
-import Main from "./pages/Main.js";
+import React, { useState, useEffect } from "react";
 import Landing from "./pages/Landing.js";
 
 export default function App() {
-  function test() {
-    console.log("gt");
+  function test(param) {
+    console.log(param);
   }
 
-  const login = {
+  let login = {
     name: "Login",
-    formAction: test,
-    alternative: "Register",
-    link: "",
+    alt: "Register",
+    link: "/register",
+    formAction: () => test("..."),
   };
-  const register = {
+
+  let register = {
     name: "Register",
-    formAction: test,
-    alternative: "Login",
-    link: "",
+    alt: "Login",
+    link: "/login",
+    formAction: () => test("..."),
   };
+
+  const [form, setForm] = useState(login);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:5000/getLogin")
+  //     .then((response) => response.json())
+  //     .then((data) =>
+  //       setForm({
+  //         name: data.name,
+  //         alternative: data.alternative,
+  //         link: data.link,
+  //         formAction: () => test(data.formAction),
+  //       })
+  //     );
+  // }, []);
+
   return (
     <Landing
-      name={register.name}
-      formAction={register.formAction}
-      alternative={register.alternative}
-      link={register.link}
+      name={form.name}
+      formAction={form.formAction}
+      alt={form.alt}
+      link={form.link}
     />
   );
 }

@@ -1,29 +1,27 @@
 import React from "react";
 
-export default function Landing({ name, formAction, alternative, link }) {
+export default function Landing({ name, formAction, alt, link }) {
   return (
     <>
       <div>
         <strong>{name}</strong>
       </div>
-      <SignInForm
-        formAction={formAction}
-        alternative={alternative}
-        link={link}
-      />
+      <SignInForm formAction={formAction} alt={alt} link={link} />
     </>
   );
 }
 
-function SignInForm({ formAction, alternative, link }) {
+function SignInForm({ formAction, alt, link }) {
   return (
     <>
-      <form onSubmit={formAction}>
+      <form>
         <input placeholder="username" />
         <input placeholder="password" type="password" />
-        <button type="submit">Submit</button>
+        <button type="button" onClick={formAction}>
+          Submit
+        </button>
       </form>
-      <a href={link}>{alternative} instead</a>
+      <a href={link}>{alt} instead</a>
     </>
   );
 }
