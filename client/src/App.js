@@ -2,45 +2,35 @@ import React, { useState, useEffect } from "react";
 import Landing from "./pages/Landing.js";
 
 export default function App() {
-  function test(param) {
-    console.log(param);
+  const [form, setForm] = useState({ name: "", alt: "" });
+
+  function fetchForm(url) {
+    fetch(`/${url}`)
+      .then((response) => response.json())
+      .then((data) => setForm(data));
   }
 
-  let login = {
-    name: "Login",
-    alt: "Register",
-    link: "/register",
-    formAction: () => test("..."),
-  };
+  function submitCredentials(name, creds) {
+    console.log(creds);
+    fetch(`/${name}`, {
+      method: "POST",
+      body: JSON.stringify(creds),
+      headers: { "Content-type": "application/json; charset=UTF-8" },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  }
 
-  let register = {
-    name: "Register",
-    alt: "Login",
-    link: "/login",
-    formAction: () => test("..."),
-  };
-
-  const [form, setForm] = useState(login);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/getLogin")
-  //     .then((response) => response.json())
-  //     .then((data) =>
-  //       setForm({
-  //         name: data.name,
-  //         alternative: data.alternative,
-  //         link: data.link,
-  //         formAction: () => test(data.formAction),
-  //       })
-  //     );
-  // }, []);
+  useEffect(() => {
+    fetchForm("login");
+  }, []);
 
   return (
     <Landing
       name={form.name}
-      formAction={form.formAction}
       alt={form.alt}
-      link={form.link}
+      fetchForm={fetchForm}
+      submitCredentials={submitCredentials}
     />
   );
 }
