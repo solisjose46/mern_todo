@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
-export default function Landing() {
+export default function Landing({ submitCredentials }) {
   let login = {
     name: "login",
     alt: "register",
@@ -13,28 +13,21 @@ export default function Landing() {
   const [form, setForm] = useState(login);
 
   function changeForm(obj) {
-    if (obj === login) {
-      setForm(register);
-    } else {
+    console.log("changeForm");
+    if (obj === login.name) {
       setForm(login);
+    } else {
+      setForm(register);
     }
   }
 
-  function submitCredentials(creds) {
-    fetch(`/${form.name}`, {
-      method: "POST",
-      body: JSON.stringify(creds),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-  }
   return (
     <>
       <div>
         <strong>{form.name}</strong>
       </div>
       <SignInForm
+        name={form.name}
         alt={form.alt}
         submitCredentials={submitCredentials}
         changeForm={changeForm}
@@ -43,26 +36,40 @@ export default function Landing() {
   );
 }
 
-function SignInForm({ alt, submitCredentials, changeForm }) {
-  const usernameRef = useRef("");
-  const passwordRef = useRef("");
-  let currentForm = {
-    username: usernameRef.current.value,
-    password: passwordRef.current.value,
+function SignInForm({ name, alt, submitCredentials, changeForm }) {
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+
+  const currentForm = {
+    username: user,
+    password: pass,
   };
-  function returnCredentials() {
-    submitCredentials(currentForm);
-  }
+
   return (
     <>
       <form>
-        <input placeholder="username" autoComplete="off" />
-        <input placeholder="password" type="password" autoComplete="off" />
-        <button type="button" onClick={returnCredentials()}>
+        <input
+          placeholder="username"
+          type="us"
+          autoComplete="off"
+          value={user}
+          onInput={(e) => setUser(e.target.value)}
+        />
+        <input
+          placeholder="password"
+          type="password"
+          autoComplete="off"
+          value={pass}
+          onInput={(e) => setPass(e.target.value)}
+        />
+        <button
+          type="button"
+          onClick={() => submitCredentials(currentForm, name)}
+        >
           Submit
         </button>
       </form>
-      <button type="button" onClick={changeForm(currentForm)}>
+      <button type="button" onClick={() => changeForm(alt)}>
         {alt} instead
       </button>
     </>

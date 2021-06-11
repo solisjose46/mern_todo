@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-export default function Main() {
+export default function Main({ setAuth }) {
   const [list, setList] = useState([]);
   const [index, setIndex] = useState(null);
 
@@ -18,7 +18,7 @@ export default function Main() {
         index={index}
         setIndex={setIndex}
       />
-      <Logout />
+      <Logout setAuth={setAuth} />
     </>
   );
 }
@@ -122,13 +122,10 @@ function Textfield({ list, setList, index, setIndex }) {
   );
 }
 
-function Logout() {
-  function logout() {
-    console.log("logout");
-  }
+function Logout({ setAuth }) {
   return (
-    <a href="" onClick={logout}>
-      Logout
-    </a>
+    <button type="button" onClick={() => setAuth(false)}>
+      logout
+    </button>
   );
 }

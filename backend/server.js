@@ -5,23 +5,13 @@ const port = 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 app.use(express.json());
 
-let login = {
-  name: "login",
-  alt: "register",
-};
-
-let register = {
-  name: "register",
-  alt: "login",
-};
-
 app.get("/login", (req, res) => {
-  console.log("log");
+  console.log("get: login");
   res.json(login);
 });
 
 app.get("/register", (req, res) => {
-  console.log("reg");
+  console.log("get: reg");
   res.json(register);
 });
 
